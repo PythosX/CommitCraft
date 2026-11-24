@@ -1,0 +1,42 @@
+# CommitCraft API — Cloudflare Workers configuration
+#
+# Create the KV namespaces first, then paste their ids below:
+#   npx wrangler kv namespace create SESSIONS
+#   npx wrangler kv namespace create JOBS
+#   npx wrangler kv namespace create HISTORY
+#
+# Secrets (never put these in this file):
+#   npx wrangler secret put GITHUB_CLIENT_ID
+#   npx wrangler secret put GITHUB_CLIENT_SECRET
+#   npx wrangler secret put SESSION_SECRET
+#   npx wrangler secret put ENCRYPTION_KEY
+
+name = "commitcraft-api"
+main = "src/index.js"
+compatibility_date = "2025-03-01"
+
+workers_dev = true
+
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "REPLACE_WITH_SESSIONS_KV_ID"
+
+[[kv_namespaces]]
+binding = "JOBS"
+id = "REPLACE_WITH_JOBS_KV_ID"
+
+[[kv_namespaces]]
+binding = "HISTORY"
+id = "REPLACE_WITH_HISTORY_KV_ID"
+
+[vars]
+# Where the static frontend is served from (comma-separated list allowed).
+FRONTEND_URL = "http://localhost:3000"
+# Must match the callback URL registered on the GitHub OAuth app.
+GITHUB_CALLBACK_URL = "http://localhost:8787/api/auth/github/callback"
+# Files processed per publishing tick (each file costs ~6 GitHub API calls).
+PUBLISH_BATCH_SIZE = "4"
+# Hard limits enforced server-side.
+MAX_JOB_BYTES = "26214400"
+MAX_FILE_BYTES = "5242880"
+MAX_FILES_PER_JOB = "200"

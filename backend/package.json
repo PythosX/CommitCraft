@@ -1,0 +1,20 @@
+{
+  "name": "commitcraft-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "CommitCraft API — GitHub publishing studio backend (Cloudflare Workers).",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node --test test/",
+    "check": "node --check src/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "wrangler": "^3.90.0"
+  }
+}
