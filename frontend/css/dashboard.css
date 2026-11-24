@@ -1,0 +1,222 @@
+/*
+ * CommitCraft dashboard, repositories, history and settings surfaces
+ */
+
+.welcome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding: var(--space-5) var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--surface-2), var(--surface) 55%);
+  flex-wrap: wrap;
+}
+
+.welcome__main {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.welcome__text h2 {
+  font-size: var(--text-xl);
+  letter-spacing: -0.03em;
+}
+
+.welcome__text p {
+  font-size: var(--text-sm);
+  margin-top: 2px;
+}
+
+.welcome__actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.repo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.repo-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  text-align: left;
+  transition: border-color var(--dur-1) var(--ease-out), background-color var(--dur-1) var(--ease-out),
+    transform var(--dur-1) var(--ease-out);
+  min-width: 0;
+}
+
+.repo-card:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+
+.repo-card:active {
+  transform: scale(0.995);
+}
+
+.repo-card[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.repo-card__top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.repo-card__name {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.repo-card__desc {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  min-height: 2.6em;
+}
+
+.repo-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-2xs);
+  color: var(--text-faint);
+  flex-wrap: wrap;
+}
+
+.repo-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  max-height: 620px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.job-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.job-row__bar {
+  width: 90px;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.setting-row:last-child {
+  border-bottom: 0;
+}
+
+.setting-row__text strong {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 550;
+}
+
+.setting-row__text span {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.account-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.account-card__meta {
+  min-width: 0;
+}
+
+.account-card__meta strong {
+  display: block;
+  font-size: var(--text-md);
+}
+
+.account-card__meta a {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.account-card__meta a:hover {
+  color: var(--accent);
+}
+
+.ignore-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.ignore-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 7px 9px;
+  border-radius: var(--radius-xs);
+  font-size: var(--text-xs);
+  border: 1px solid transparent;
+}
+
+.ignore-row:hover {
+  background: var(--surface-2);
+  border-color: var(--border);
+}
+
+.ignore-row__path {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.ignore-row__reason {
+  font-size: var(--text-2xs);
+  color: var(--text-faint);
+  white-space: nowrap;
+}

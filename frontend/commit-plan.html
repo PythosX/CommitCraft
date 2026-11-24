@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Commit plan — CommitCraft</title>
+    <meta name="commitcraft-api" content="http://localhost:8787" />
+    <meta name="theme-color" content="#0b0d10" />
+    <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link rel="stylesheet" href="css/commit-plan.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <script>
+      (function () {
+        try {
+          var preference = localStorage.getItem('cc.theme') || 'system';
+          var light = preference === 'light' || (preference === 'system' && window.matchMedia('(prefers-color-scheme: light)').matches);
+          document.documentElement.dataset.theme = light ? 'light' : 'dark';
+          document.documentElement.style.colorScheme = light ? 'light' : 'dark';
+        } catch (error) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="Sidebar"></aside>
+      <div class="app-main">
+        <header class="topbar" id="topbar"></header>
+        <main class="page" id="main">
+          <div class="page__head">
+            <div>
+              <div class="page__eyebrow">Step 3 of 4 · Commit messages</div>
+              <h1 class="page__title">Commit message studio</h1>
+              <p class="page__desc">
+                Every selected file becomes its own commit. Write a message for each one, reorder the plan,
+                then review exactly what will be published.
+              </p>
+            </div>
+            <div class="page__actions">
+              <a class="btn btn--secondary" href="upload.html">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+                Back to files
+              </a>
+            </div>
+          </div>
+
+          <div id="planAlert"></div>
+
+          <div id="planEmpty" hidden>
+            <div class="empty">
+              <span class="empty__icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2Z"/><path d="M14 2v6h6"/></svg>
+              </span>
+              <h2 class="empty__title">No folder loaded</h2>
+              <p class="empty__text">Upload a project folder first, then come back to write your commit messages.</p>
+              <a class="btn btn--primary" href="upload.html">Upload a folder</a>
+            </div>
+          </div>
+
+          <div class="plan-layout" id="planLayout" hidden>
+            <div class="plan-main">
+              <section class="card" aria-labelledby="editorTitle">
+                <div class="card__head">
+                  <div>
+                    <h2 class="card__title" id="editorTitle">Messages</h2>
+                    <p class="card__desc" id="editorSummary">Loading files…</p>
+                  </div>
+                  <div class="card__actions">
+                    <button class="btn btn--ghost btn--sm" type="button" id="resetAll">Reset all</button>
+                  </div>
+                </div>
+                <div class="card__body card__body--flush">
+                  <div class="template-bar" style="border:0;border-bottom:1px solid var(--border);border-radius:0">
+                    <span class="template-bar__label">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M3 12h18"/></svg>
+                      Template
+                    </span>
+                    <div class="segmented" role="group" aria-label="Commit message templates">
+                      <button class="segmented__btn" type="button" data-template="add" aria-pressed="true">Add {filename}</button>
+                      <button class="segmented__btn" type="button" data-template="create" aria-pressed="false">Create</button>
+                      <button class="segmented__btn" type="button" data-template="update" aria-pressed="false">Update</button>
+                      <button class="segmented__btn" type="button" data-template="folder" aria-pressed="false">Folder path</button>
+                    </div>
+                    <span class="text-xs faint">Applying a template overwrites every message.</span>
+                  </div>
+                  <div class="editor-list" id="editorList"></div>
+                </div>
+              </section>
+            </div>
+
+            <aside class="plan-aside">
+              <section class="card" aria-labelledby="summaryTitle">
+                <div class="card__head">
+                  <div>
+                    <h2 class="card__title" id="summaryTitle">Publishing plan</h2>
+                    <p class="card__desc">Review before confirming</p>
+                  </div>
+                </div>
+                <div class="card__body">
+                  <div class="plan-summary__value" id="planCount">0</div>
+                  <div class="plan-summary__sub" id="planCountLabel">commits will be created</div>
+
+                  <div class="divider" style="margin:var(--space-4) 0"></div>
+
+                  <div class="kv">
+                    <dt>Repository</dt><dd id="planRepo">—</dd>
+                    <dt>Branch</dt><dd id="planBranch">—</dd>
+                    <dt>Order</dt><dd id="planOrder">—</dd>
+                    <dt>Total size</dt><dd id="planSize">—</dd>
+                  </div>
+
+                  <div class="divider" style="margin:var(--space-4) 0"></div>
+
+                  <div class="row" style="justify-content:space-between;margin-bottom:var(--space-2)">
+                    <span class="text-xs" style="font-weight:600">Commit order</span>
+                    <span class="badge badge--muted" id="planPathCount">0 files</span>
+                  </div>
+                  <ol class="plan-list" id="planList"></ol>
+                </div>
+              </section>
+
+              <section class="card">
+                <div class="card__body">
+                  <div class="publish-confirm">
+                    <div>
+                      <strong style="font-size:var(--text-sm)" id="confirmTitle">Ready to publish</strong>
+                      <p id="confirmText">Each file is committed individually, in the order above.</p>
+                    </div>
+
+                    <div id="carefulConfirm" hidden>
+                      <label class="field__label" for="carefulInput" style="margin-bottom:6px">
+                        Type <span class="mono">PUBLISH</span> to confirm
+                      </label>
+                      <input class="input mono-xs" id="carefulInput" autocomplete="off" spellcheck="false" />
+                    </div>
+
+                    <button class="btn btn--primary btn--block" type="button" id="publishButton">
+                      Publish files
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                    </button>
+                    <p class="text-xs faint" style="text-align:center">
+                      Existing files on the branch are preserved. Nothing is force-pushed.
+                    </p>
+                  </div>
+                </div>
+              </section>
+            </aside>
+          </div>
+        </main>
+        <footer class="app-footer">
+          <span>CommitCraft · Every file. A meaningful commit.</span>
+          <span class="app-footer__links">
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+            <span>Developed by PythosX</span>
+          </span>
+        </footer>
+      </div>
+    </div>
+    <script type="module" src="js/pages/commit-plan.js"></script>
+  </body>
+</html>
